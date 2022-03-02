@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="" />
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+    <script src="./data/point.js"></script>
+    <script src="./data/line.js"></script>
+    <script src="./data/polygon.js"></script>
     <title>Leaflet Example</title>
     <style>
         #map {
@@ -20,18 +23,7 @@
 </html>
 
 <script>
-    /*
-    var map = L.map('map').setView([-5.863, -35.2], 13);
-
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
-
-    L.marker([-5.863, -35.21]).addTo(map)
-        .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
-        .openPopup();
     
-    */
     var map = L.map('map').setView([28.3949, 84.1240], 8);
 
 
@@ -89,4 +81,39 @@
     var secondMarker = L.marker([29.3949, 83.1240], { icon: myIcon, draggable: true });
 
     console.log(singleMarker.toGeoJSON())
+
+    /*==============================================
+                GEOJSON
+    ================================================*/
+    var pointData = L.geoJSON(pointJson).addTo(map)
+    var lineData = L.geoJSON(lineJson).addTo(map)
+    var polygonData = L.geoJSON(polygonJson, {
+        onEachFeature: function (feature, layer) {
+            layer.bindPopup(`<b>Name: </b>` + feature.properties.name)
+        },
+        style: {
+            fillColor: 'red',
+            fillOpacity: 1,
+            color: '#c0c0c0',
+        }
+    }).addTo(map);
+
+    /*==============================================
+                    LAYER CONTROL
+    ================================================*/
+
+    var baseMaps = {
+        "OSM": osm,
+        "Water color map": watercolor,
+        'Dark': dark,
+        'Google Street': googleStreets,
+        "Google Satellite": googleSat,
+    };
+    var overlayMaps = {
+        "First Marker": singleMarker,
+        'Point Data': pointData,
+        'Line Data': lineData,
+        'Polygon Data': polygonData,
+    };
+    L.control.layers(baseMaps, overlayMaps, { collapsed: false }).addTo(map);
 </script>
