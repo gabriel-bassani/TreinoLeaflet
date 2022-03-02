@@ -67,6 +67,13 @@
     });
     //googleSat.addTo(map)
 
+    var wms = L.tileLayer.wms("http://localhost:8080/geoserver/wms", {
+        layers: 'geoapp:admin',
+        format: 'image/png',
+        transparent: true,
+        attribution: "wms test"
+    });
+
     /*==============================================
                         MARKER
     ================================================*/
@@ -114,6 +121,7 @@
         'Point Data': pointData,
         'Line Data': lineData,
         'Polygon Data': polygonData,
+        'wms': wms
     };
     L.control.layers(baseMaps, overlayMaps, { collapsed: false }).addTo(map);
 </script>
