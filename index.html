@@ -43,7 +43,7 @@
     var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     });
-    osm.addTo(map);
+    //osm.addTo(map);
     // map.addLayer(osm)
     // water color 
     var watercolor = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.{ext}', {
@@ -66,12 +66,27 @@
         maxZoom: 20,
         subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
     });
-    // googleStreets.addTo(map);
+    googleStreets.addTo(map);
 
     //google satellite
     googleSat = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
         maxZoom: 20,
         subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
     });
-    // googleSat.addTo(map)
+    //googleSat.addTo(map)
+
+    /*==============================================
+                        MARKER
+    ================================================*/
+    var myIcon = L.icon({
+        iconUrl: 'img/red_marker.png',
+        iconSize: [40, 40],
+    });
+    var singleMarker = L.marker([28.3949, 84.1240], { icon: myIcon, draggable: true });
+    var popup = singleMarker.bindPopup('This is the Nepal. ' + singleMarker.getLatLng()).openPopup()
+    popup.addTo(map);
+
+    var secondMarker = L.marker([29.3949, 83.1240], { icon: myIcon, draggable: true });
+
+    console.log(singleMarker.toGeoJSON())
 </script>
